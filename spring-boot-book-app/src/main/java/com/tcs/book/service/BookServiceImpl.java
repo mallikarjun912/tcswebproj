@@ -31,7 +31,6 @@ public class BookServiceImpl implements BookService{
 	}
 	@Override
 	public List<Book> getAllBooks() {
-		
 		return repo.findAll();
 	}
  
@@ -45,13 +44,13 @@ public class BookServiceImpl implements BookService{
 	}
 	@Override
 	public List<Book> searchBook(String searchKey) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return repo.searchForBooks(searchKey);
 	}
 	@Override
 	public List<Book> findByTitle(String title) {
-		//return repo.findByTitle(title);
-		return repo.findByTitleLike(title);
+		String str = "%"+title+"%";
+		return repo.findByTitleLike(str);
 	}
 
 }

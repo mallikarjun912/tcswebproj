@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mysql.cj.protocol.x.Ok;
 import com.tcs.book.entity.Book;
 import com.tcs.book.service.BookService;
 
@@ -35,23 +34,27 @@ public class BookController {
 		List<Book> bookList = service.getAllBooks();
 		return new ResponseEntity<List<Book>>(bookList,HttpStatus.OK);
 	}
+	@GetMapping("/search/{key}")
+	public ResponseEntity<List<Book>> searchBooks(@PathVariable String key){
+		List<Book> bookList = service.searchBook(key);
+		return new ResponseEntity<List<Book>>(bookList,HttpStatus.OK);
+	}
 	
 	@GetMapping("/bytitle/{title}")
 	public ResponseEntity<List<Book>> getBooksByTitle(@PathVariable String title){
 		List<Book> bookList = service.findByTitle(title);
 		return new ResponseEntity<List<Book>>(bookList,HttpStatus.OK);
 	}
+	@GetMapping("{bookId}")
+	public ResponseEntity<Book> getBookById(@PathVariable int bookId){
+		Book book = service.getBookById(bookId);
+		return new ResponseEntity<Book>(book,HttpStatus.OK);
+	}
 	
 	@PutMapping
 	public ResponseEntity<String> updateBook(@RequestBody Book book){
 		int id = service.updateBook(book); 
 		return new ResponseEntity<String>("updated "+id,HttpStatus.OK);
-	}
-	
-	@GetMapping("{bookId}")
-	public ResponseEntity<Book> getBookById(@PathVariable int bookId){
-		Book book = service.getBookById(bookId);
-		return new ResponseEntity<Book>(book,HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{bookId}")
